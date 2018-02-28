@@ -8,6 +8,8 @@ import addGoods from '@/pages/addGoods'
 import memberList from '@/pages/memberList'
 import categoryList from '@/pages/categoryList'
 import addCategory from '@/pages/addCategory'
+import recycleList from '@/pages/recycleList'
+import adsList from '@/pages/adsList'
 
 Vue.use(Router)
 
@@ -44,6 +46,14 @@ export default new Router({
         {
           path: '/addCategory',
           component: addCategory
+        },
+        {
+          path: '/recycleList',
+          component: recycleList
+        },
+        {
+          path: '/adsList',
+          component: adsList
         }
       ]
     }

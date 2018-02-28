@@ -2,7 +2,7 @@
  *Create by Zhang on 2018/1/3
  */
 var GoodsModel=require('../../models/goods/goods');
-//var CategoryModel=require('../../models/category/category');
+var CategoryModel=require('../../models/category/category');
 var formidable=require('formidable');
 var fs=require('fs');
 
@@ -12,7 +12,7 @@ var goodsController={};
 goodsController.getGoods=function (req,res) {
     var offset=req.query.offset;
     var limit=req.query.limit;
-    GoodsModel.find({}).populate('link_category').limit(Number(limit)).skip(Number(offset)).exec(function (err,doc) {
+    GoodsModel.find({"is_recycle":0}).populate('link_category').limit(Number(limit)).skip(Number(offset)).exec(function (err,doc) {
         if(err){
             res.send({
                 status:0,
@@ -29,7 +29,7 @@ goodsController.getGoods=function (req,res) {
 
 //获取商品总条数
 goodsController.getGoodsCount=function (req,res) {
-    GoodsModel.count({},function (err,doc) {
+    GoodsModel.count({"is_recycle":0},function (err,doc) {
         //console.log(doc)
         if(err){
             throw err;
@@ -52,7 +52,7 @@ goodsController.addGoods=function (req,res) {
         link_category: req.body.category,
         images: req.body.imageUrl
     }
-    //console.log(params)
+
     var goodsModel=new GoodsModel(params);
     goodsModel.save(function(err){
         if(err){
@@ -61,11 +61,12 @@ goodsController.addGoods=function (req,res) {
                 msg :"添加失败"
             })
         }else{
-            //console.log('保存成功')
+
             res.send({
                 status: 1,
                 msg: "添加成功"
             })
+
         }
     })
 }
@@ -81,7 +82,7 @@ goodsController.addImg=function (req,res) {
         }else{
             var fullName=(new Date().getTime() + Math.ceil(Math.random()*10000)).toString(16)+files.file.name;
             var repath='./public/images/'+fullName;
-            console.log(repath)
+            //console.log(repath)
             fs.rename(files.file.path,repath);
             res.send({
                 status:1,
@@ -115,17 +116,6 @@ goodsController.updateGoods=function (req,res) {
         images: params.images,
         link_category: params.category,
     }
-    /*CategoryModel.findOne({cname: params.category},function (err,doc) {
-        if(err){
-            throw err;
-        }else{
-            console.log(doc._id)
-        }
-    })*/
-    //console.log(newData)
-
-   //console.log(params)
-    //var goodsModel=new GoodsModel();
 
     GoodsModel.update({_id:params._id},{$set:newData},function (err,result) {
         if(err){
@@ -143,16 +133,90 @@ goodsController.updateGoods=function (req,res) {
 
 }
 
-//删除商品
-goodsController.deleteGoods=function (req,res) {
+//删除商品到回收站
+goodsController.deleteToRecycle=function (req,res) {
     
     var id=req.query.id;
+    GoodsModel.update({_id:id},{"is_recycle": 1},function (err,doc) {
+        //console.log(doc)
+        if(err){
+            res.send({
+                status: 0,
+                result: '删除数据失败'
+            })
+        }else{
+            res.send({
+                status: 1,
+                result: doc
+            })
+        }
+    })
+}
+
+//获取回收站的商品
+goodsController.getRecycleGoods=function (req,res) {
+    var offset=req.query.offset;
+    var limit=req.query.limit;
+    GoodsModel.find({"is_recycle":1}).populate('link_category').limit(Number(limit)).skip(Number(offset)).exec(function (err,doc) {
+        if(err){
+            res.send({
+                status:0,
+                messages: '查询数据失败'
+            })
+        }else{
+            res.send({
+                status: 1,
+                result: doc
+            })
+        }
+    })
+}
+
+//获取回收站商品总数
+goodsController.getRecycleCount=function (req,res) {
+    GoodsModel.count({"is_recycle":1},function (err,doc) {
+        //console.log(doc)
+        if(err){
+            throw err;
+        }
+        res.send({
+            status: 1,
+            count: doc
+        })
+    })
+}
+
+//彻底删除商品
+goodsController.deleteGoods=function (req,res) {
+
+    var id=req.query.id;
+
     GoodsModel.remove({_id:id},function (err,doc) {
         //console.log(doc)
         if(err){
             res.send({
                 status: 0,
                 result: '删除数据失败'
+            })
+        }else{
+
+            res.send({
+                status: 1,
+                result: doc
+            })
+        }
+    })
+}
+
+//还原商品
+goodsController.resetGood=function (req,res) {
+    var id=req.query.id;
+    GoodsModel.update({_id:id},{"is_recycle": 0},function (err,doc) {
+        //console.log(doc)
+        if(err){
+            res.send({
+                status: 0,
+                result: '从回收站还原失败'
             })
         }else{
             res.send({

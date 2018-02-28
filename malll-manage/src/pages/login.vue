@@ -10,9 +10,28 @@
           <el-input type="password" v-model="loginForm.password"  auto-complete="off" placeholder="密码"></el-input>
         </el-form-item>
         <el-form-item style="width:100%;">
-          <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin" :loading="loading">登录</el-button>
+          <el-button size="mini" round @click.native.prevent="handleRegister">注册</el-button>
+          <el-button type="primary" @click.native.prevent="handleLogin" :loading="loading">登录</el-button>
         </el-form-item>
       </el-form>
+      <!--添加对话框-->
+      <el-dialog title="管理员注册" :visible.sync="registerDialogFormVisible">
+        <el-form :model="registerForm" :rules="rules" ref="registerForm">
+          <el-form-item label="用户名" label-width="100px" prop="username">
+            <el-input v-model="registerForm.username" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" label-width="100px" prop="password">
+            <el-input type="password" v-model="registerForm.password" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码" label-width="100px" prop="checkPass">
+            <el-input type="password" v-model="registerForm.checkPass" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="registerDialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="register('registerForm')">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
 </template>
 
@@ -22,6 +41,25 @@
 
     export default {
         data () {
+          var validatePass = (rule, value, callback) => {
+            if (value === '') {
+              callback(new Error('请输入密码'));
+            } else {
+              if (this.registerForm.checkPass !== '') {
+                this.$refs.registerForm.validateField('checkPass');
+              }
+              callback();
+            }
+          };
+          var validatePass2 = (rule, value, callback) => {
+            if (value === '') {
+              callback(new Error('请再次输入密码'));
+            } else if (value !== this.registerForm.password) {
+              callback(new Error('两次输入密码不一致!'));
+            } else {
+              callback();
+            }
+          };
             return {
               loading: false,  //默认不显示加载动效
               loginForm: {
@@ -30,15 +68,25 @@
               },
               rules: {
                 username: [
-                  {required: true, message: '请输入账号', trigger: 'blur'}
+                  {required: true, message: '请输入用户名', trigger: 'blur'}
                 ],
                 password: [
-                  {required: true, message: '请输入密码', trigger: 'blur'}
+                  { validator: validatePass, trigger: 'blur' }
+                ],
+                checkPass: [
+                  { validator: validatePass2, trigger: 'blur' }
                 ]
+              },
+              registerDialogFormVisible: false,
+              registerForm:{
+                username: '',
+                password: '',
+                checkPass: ''
               },
             }
         },
         methods:{
+          //登录
           handleLogin(){
             var that=this;
             this.$refs.accountForm.validate(function (valid) {
@@ -57,7 +105,7 @@
                   }else{
                     that.loading = false;
                     that.$message({
-                      tyep:'error',
+                      type:'error',
                       message:result.data.msg
                     });
                   }
@@ -65,6 +113,27 @@
               }
             });
 
+          },
+          //注册
+          async handleRegister(){
+            this.registerDialogFormVisible=true;
+          },
+          async register(formName){
+            this.$refs[formName].validate((valid)=>{
+              if(valid){
+                var register={...this.registerForm};
+                //console.log(register)
+                axios.post('api/admin/register',qs.stringify(register)).then((res)=>{
+                  if(res.data.status==1){
+                    this.$message.error(res.data.msg)
+                    return;
+                  }else if(res.data.status==2){
+                    this.$message.success(res.data.msg)
+                    this.registerDialogFormVisible=false;
+                  }
+                })
+              }
+            })
           }
         }
     }

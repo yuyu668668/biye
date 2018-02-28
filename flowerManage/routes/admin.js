@@ -6,6 +6,25 @@ var adminController=require('../controller/admin/admin');
 
 var router = express.Router();
 
+//登录
 router.post('/login', adminController.login);
+
+//注册
+router.post('/register',adminController.register);
+
+//获取登录的信息
+router.get('/getAdminInfo',adminController.getAdminInfo);
+
+//退出登录
+router.get('/signOut',adminController.signOut);
+
+//上传头像
+router.post('/uploadAvatar',adminController.uploadAvatar);
+
+//修改头像
+router.post('/updateAvatar',adminController.updateAvatar);
+
+//修改密码
+router.post('/changePass',adminController.changePass);
 
 module.exports = router;

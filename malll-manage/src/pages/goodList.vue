@@ -189,7 +189,7 @@
                       tableData.price=item.price;//商品价格
                       tableData.create_time=item.create_time;//创建时间
                       tableData.images=item.images;//商品图片
-                      tableData.category=item.link_category;//商品分类
+                      tableData.category=item.link_category;//商品分类名
                       this.tableData.push(tableData);
                   })
                 }else{
@@ -208,7 +208,7 @@
               })
           },
 
-          handleEdit(index,row) {
+          async handleEdit(index,row) {
             //console.log(row);
             this.selectTable=row;
             this.dialogFormVisible = true;
@@ -250,13 +250,13 @@
 
 
           //更新商品信息
-          updateGoods(formName){
+          async updateGoods(formName){
             this.$refs[formName].validate((valid) => {
               if(valid){
                 var params={...this.selectTable};
                 //console.log(params)
                 axios.post('api/goods/updateGoods',qs.stringify(params)).then((res)=>{
-                  console.log(res)
+                  //console.log(res)
                   if(res.data.status==1){
                     this.$message.success(res.data.msg);
                     this.dialogFormVisible=false;
@@ -272,11 +272,11 @@
           },
           //删除商品
           async handleDelete(index,row){
-            axios.get('api/goods/deleteGoods',{params:{ id: row._id}}).then((res)=>{
+            axios.get('api/goods/deleteToRecycle',{params:{ id: row._id}}).then((res)=>{
                 if(res.data.status==1){
                   this.$message({
                     type: 'success',
-                    message: '删除成功'
+                    message: '删除到回收站成功'
                   });
                   this.getData();//重新渲染页面
                 }else{

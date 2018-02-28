@@ -24,4 +24,16 @@ router.post('/updateGoods',goodsController.updateGoods);
 //删除商品
 router.get('/deleteGoods',goodsController.deleteGoods);
 
+//获取回收站商品列表
+router.get('/getRecycleGoods',goodsController.getRecycleGoods);
+
+//获取回收站总条数
+router.get('/getRecycleCount',goodsController.getRecycleCount);
+
+//删除到回收站
+router.get('/deleteToRecycle',goodsController.deleteToRecycle);
+
+//从回收站还原
+router.get('/resetGood',goodsController.resetGood);
+
 module.exports=router;

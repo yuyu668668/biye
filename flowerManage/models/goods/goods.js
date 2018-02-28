@@ -15,7 +15,15 @@ var goodsSchema=new mongoose.Schema({
         type: String,
         default: ''
     },  //商品图片
+    is_recycle: { //是在回收站,0代表不在，1代表在
+        type: Number,
+        default: 0
+    },
     create_time: {   //创建时间
+        type: Date,
+        default: Date.now()
+    },
+    update_time: {   //更新时间
         type: Date,
         default: Date.now()
     },
@@ -25,6 +33,15 @@ var goodsSchema=new mongoose.Schema({
     }
 
 });
+
+/*goodsSchema.pre('save',function (next) {
+    if(this.isNew){
+        this.create_time=this.update_time=Data.now();
+    }else {
+        this.update_time=Data.now();
+    }
+    next();
+})*/
 
 var Goods=mongoose.model('Goods',goodsSchema);
 
