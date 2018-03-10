@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@alicloud/sms-sdk": "^1.0.8",
     "babel-core": "^6.26.0",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",

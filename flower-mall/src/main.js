@@ -7,13 +7,11 @@ import store from '@/store/index'
 import Vant from 'vant';
 import { Lazyload } from 'vant';
 import 'vant/lib/vant-css/index.css';
-import axios from 'axios'
 
 Vue.config.productionTip = false
 
 Vue.use(Vant);
 Vue.use(Lazyload);
-Vue.prototype.axios = axios;
 
 /* eslint-disable no-new */
 new Vue({

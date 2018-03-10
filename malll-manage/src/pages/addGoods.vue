@@ -12,15 +12,18 @@
   <div class="add_container">
     <el-row>
         <el-col :span="14" :offset="4">
-          <el-form :model="foodForm" :rules="rules" ref="foodForm" label-width="100px" class="demo-ruleForm">
+          <el-form :model="goodForm" :rules="rules" ref="goodForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="商品编号" prop="id">
-              <el-input v-model="foodForm.id"></el-input>
+              <el-input v-model="goodForm.id"></el-input>
             </el-form-item>
             <el-form-item label="商品名称" prop="name">
-              <el-input v-model="foodForm.name"></el-input>
+              <el-input v-model="goodForm.name"></el-input>
             </el-form-item>
             <el-form-item label="商品价格" prop="price">
-              <el-input v-model.number="foodForm.price"></el-input>
+              <el-input v-model.number="goodForm.price"></el-input>
+            </el-form-item>
+            <el-form-item label="库存">
+              <el-input v-model.number="goodForm.amount"></el-input>
             </el-form-item>
             <el-form-item label="商品分类" prop="category">
               <el-select v-model="categoryForm.categorySelect" placeholder="请选择商品分类" style="width:100%">
@@ -32,7 +35,10 @@
               </el-select>
             </el-form-item>
             <el-form-item label="商品描述" prop="desc">
-              <el-input type="textarea" v-model="foodForm.desc"></el-input>
+              <el-input type="textarea" v-model="goodForm.desc"></el-input>
+            </el-form-item>
+            <el-form-item label="花语">
+              <el-input type="textarea" v-model="goodForm.detail"></el-input>
             </el-form-item>
             <el-form-item label="商品图片">
               <el-upload
@@ -41,13 +47,13 @@
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload">
-                <img v-if="foodForm.imageUrl" :src="foodForm.imageUrl" class="avatar">
+                <img v-if="goodForm.imageUrl" :src="goodForm.imageUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('foodForm')">立即添加</el-button>
-              <el-button @click="resetForm('foodForm')">重置</el-button>
+              <el-button type="primary" @click="submitForm('goodForm')">立即添加</el-button>
+              <el-button @click="resetForm('goodForm')">重置</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -62,12 +68,14 @@
   export default {
     data() {
       return {
-        foodForm: {
+        goodForm: {
           id: '',
           name: '',
           price: '',
           category: '',
           desc: '',
+          detail: '',
+          amount: '',
           imageUrl: ''
         },
         categoryForm:{
@@ -101,12 +109,14 @@
           if (valid) {
 
             var addParams = {
-              id: this.foodForm.id,
-              name: this.foodForm.name,
-              price: this.foodForm.price,
-              desc: this.foodForm.desc,
+              id: this.goodForm.id,
+              name: this.goodForm.name,
+              price: this.goodForm.price,
+              desc: this.goodForm.desc,
+              amount: this.goodForm.amount,
+              detail: this.goodForm.detail,
               category: this.categoryForm.categorySelect,
-              imageUrl: this.foodForm.imageUrl
+              imageUrl: this.goodForm.imageUrl
             };
             axios.post('/api/goods/add',qs.stringify(addParams)).then((res)=>{
                 if (res.data.status==1){
@@ -143,7 +153,7 @@
       //图片上传
       handleAvatarSuccess(res, file) {
         if(res.status==1) {
-          this.foodForm.imageUrl = res.result;
+          this.goodForm.imageUrl = res.result;
         }else{
           this.$message.error('上传图片失败');
         }

@@ -36,4 +36,13 @@ router.get('/deleteToRecycle',goodsController.deleteToRecycle);
 //从回收站还原
 router.get('/resetGood',goodsController.resetGood);
 
+//根据商品id查询商品详细信息
+router.get('/getDetail',goodsController.getDetail);
+
+//获取热销商品
+router.get('/hotGoods',goodsController.hotGoods);
+
+//根据关键词查询商品
+router.post('/searchGoods',goodsController.searchGoods);
+
 module.exports=router;

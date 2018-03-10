@@ -11,11 +11,6 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
-//引入模拟数据
-var appData=require('../mock/indexData.json');
-var swiperList=appData.swiperList;
-
-
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -40,15 +35,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    },
-    //下面设置mock数据接口
-    before(app){
-      app.get('/api/indexData',function (req,res) {
-          res.json({
-            errno:0,
-            data:swiperList
-          })
-      })
     }
   },
   plugins: [

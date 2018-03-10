@@ -16,22 +16,28 @@
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="商品名称">
+            <el-form-item label="商品名称：">
               <span>{{ props.row.name }}</span>
             </el-form-item>
-            <el-form-item label="商品编号">
+            <el-form-item label="商品编号：">
               <span>{{ props.row.id }}</span>
             </el-form-item>
-            <el-form-item label="商品价格">
+            <el-form-item label="商品价格：">
               <span>{{ props.row.price }}</span>
             </el-form-item>
-            <el-form-item label="商品分类">
+            <el-form-item label="商品分类：">
               <span>{{ props.row.category.cname }}</span>
             </el-form-item>
-            <el-form-item label="商品描述">
-              <span>{{ props.row.desc }}</span>
+            <el-form-item label="花语：">
+              <span>{{ props.row.detail }}</span>
             </el-form-item>
-            <el-form-item label="商品缩略图">
+            <el-form-item label="库存：">
+              <span>{{ props.row.amount }}</span>
+            </el-form-item>
+            <el-form-item label="销量：">
+              <span>{{ props.row.sell }}</span>
+            </el-form-item>
+            <el-form-item label="商品缩略图：">
               <img :src="props.row.images" style="width: 80px;height:80px">
             </el-form-item>
           </el-form>
@@ -94,6 +100,12 @@
         </el-form-item>
         <el-form-item label="商品描述" label-width="100px" prop="desc">
           <el-input v-model="selectTable.desc"></el-input>
+        </el-form-item>
+        <el-form-item label="花语" label-width="100px">
+          <el-input v-model="selectTable.detail"></el-input>
+        </el-form-item>
+        <el-form-item label="库存" label-width="100px">
+          <el-input v-model="selectTable.amount"></el-input>
         </el-form-item>
         <el-form-item label="商品价格" label-width="100px" prop="price">
           <el-input v-model="selectTable.price"></el-input>
@@ -186,6 +198,9 @@
                       tableData.id=item.gno; //商品id
                       tableData.name=item.name;//商品名称
                       tableData.desc=item.gdesc; //商品描述
+                      tableData.detail=item.detail;//花语
+                      tableData.sell=item.sell;//销量
+                      tableData.amount=item.amount;//库存
                       tableData.price=item.price;//商品价格
                       tableData.create_time=item.create_time;//创建时间
                       tableData.images=item.images;//商品图片

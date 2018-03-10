@@ -49,6 +49,8 @@ goodsController.addGoods=function (req,res) {
         name: req.body.name,
         price: req.body.price,
         gdesc: req.body.desc,
+        detail:req.body.detail,
+        amount:req.body.amount,
         link_category: req.body.category,
         images: req.body.imageUrl
     }
@@ -102,6 +104,8 @@ goodsController.updateGoods=function (req,res) {
        name:req.body.name,
        price:req.body.price,
        desc: req.body.desc,
+       detail:req.body.detail,
+       amount:req.body.amount,
        category:req.body.category,
        images: req.body.images
    }
@@ -113,6 +117,8 @@ goodsController.updateGoods=function (req,res) {
         name: params.name,
         price: params.price,
         gdesc: params.desc,
+        detail:params.detail,
+        amount:params.amount,
         images: params.images,
         link_category: params.category,
     }
@@ -223,6 +229,73 @@ goodsController.resetGood=function (req,res) {
                 status: 1,
                 result: doc
             })
+        }
+    })
+}
+
+//根据商品id查询一条商品详细信息
+goodsController.getDetail=function (req,res) {
+    var _id=req.query._id;
+
+    if(_id){
+        GoodsModel.findById(_id,function (err,doc) {
+            if(err){
+                res.send({
+                    status: 0,
+                    msg: '查询数据失败'
+                })
+            }else{
+                res.send({
+                    status: 1,
+                    msg : doc
+                })
+            }
+        })
+    }
+
+}
+
+//查询热销商品
+goodsController.hotGoods=function (req,res) {
+    GoodsModel.find({}).sort({'sell':-1}).limit(8).exec(function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            if(doc){
+                res.send({
+                    status: 1,
+                    msg: doc
+                })
+            }else{
+                res.send({
+                    status: 0,
+                    msg: '查询失败'
+                })
+            }
+        }
+    })
+}
+
+//根据关键词查询商品信息
+goodsController.searchGoods=function (req,res) {
+    var keywords=req.body.keywords;
+    var regs=new RegExp(keywords,'i');
+
+    GoodsModel.find({$or:[{name: regs},{gdesc:regs},{detail:regs}]},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            if(doc){
+                res.send({
+                    status: 1,
+                    msg: doc
+                })
+            }else{
+                res.send({
+                    status: 0,
+                    msg: '查询不到'
+                })
+            }
         }
     })
 }

@@ -67,7 +67,7 @@
     display: -webkit-flex;
     -webkit-justify-content: space-around;
     -webkit-align-items:center;
-    height: 45px;
+    height: 50px;
   }
   .nav ul li {
     width: 25%;

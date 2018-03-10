@@ -8,11 +8,13 @@ var mongoose=require('mongoose');
 var session = require('express-session');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var user = require('./routes/user');
 var admin =require('./routes/admin');
 var category=require('./routes/category');
 var goods=require('./routes/goods');
 var ads=require('./routes/ads');
+var address=require('./routes/address');
+var cart=require('./routes/cart');
 
 var app = express();
 
@@ -30,16 +32,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     resave: false,
     saveUninitialized: false,
-    cookie: {maxAge: 10 * 60 * 1000},  //设置maxAge是1天，即1天后session和相应的cookie失效过期
+    cookie: {maxAge: 24*60 * 60 * 1000},  //设置maxAge是1天，即1天后session和相应的cookie失效过期
     secret: 'abcdef'
 }));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/user', user);
 app.use('/admin',admin);
 app.use('/category',category);
 app.use('/goods',goods);
 app.use('/ads',ads);
+app.use('/address',address);
+app.use('/cart',cart);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

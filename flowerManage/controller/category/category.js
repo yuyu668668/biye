@@ -117,7 +117,35 @@ categoryController.deleteCategory=function (req,res) {
             })
         }
     })
-
 }
+
+//根据分类查询每个分类下的所有商品
+/*categoryController.findGoodsByCategoryId=function(req,res){
+    CategoryModel.find({},function (err,doc) {
+        if(err){
+            res.send({
+                status: 0,
+                msg: '查询失败'
+            })
+        }else if(doc.length>0){
+                doc.forEach(function (item) {
+                    GoodsModel.find({link_category:item._id},function (err,goods) {
+                        if(err){
+                            res.send({
+                                status: 0,
+                                msg:'查询失败'
+                            })
+                        }else{
+                            res.send({
+                                status: 1,
+                                msg: goods
+                            })
+                        }
+                    })
+                })
+            }
+
+    })
+}*/
 
 module.exports=categoryController;

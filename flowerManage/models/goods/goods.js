@@ -11,6 +11,18 @@ var goodsSchema=new mongoose.Schema({
         type: String,
         default: ''
     },  //商品描述
+    detail: {   //花语
+        type: String,
+        default:''
+    },
+    sell:{     //销量
+        type: Number,
+        default: 0
+    },
+    amount:{
+        type: Number,
+        default: 100
+    },
     images: {
         type: String,
         default: ''

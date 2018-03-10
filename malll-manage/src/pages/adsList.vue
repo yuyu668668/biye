@@ -83,7 +83,7 @@
           class="avatar-uploader"
           action="/api/ads/uploadImg"
           :show-file-list="false"
-          :on-success="handleAvatarSuccess"
+          :on-success="changeAvatarSuccess"
           :before-upload="beforeAvatarUpload">
           <img v-if="selectTable.pic" :src="selectTable.pic" style="width: 100px;height: 100px;">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -132,9 +132,17 @@
             this.adsDialogFormVisible=true;
           },
 
+          //添加
           handleAvatarSuccess(res, file) {
             if(res.status==1) {
               this.adsForm.pic = res.result;
+            }else{
+              this.$message.error('上传图片失败');
+            }
+          },
+          changeAvatarSuccess(res, file) {
+            if(res.status==1) {
+              this.selectTable.pic = res.result;
             }else{
               this.$message.error('上传图片失败');
             }
