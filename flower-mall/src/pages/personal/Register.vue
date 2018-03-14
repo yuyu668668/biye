@@ -22,6 +22,7 @@
     <van-row>
       <van-col :span="12">
         <van-field
+          v-model="registerForm.code"
           label="验证码"
           placeholder="验证码"
           required
@@ -39,11 +40,12 @@
     <van-field
       v-model="registerForm.rePass"
       label="确认密码"
+      type="password"
       placeholder="请再次输入密码"
       required
     />
   </van-cell-group>
-  <van-button type="primary" @click="register" :disabled="showBtn">注册</van-button>
+  <van-button type="primary" @click="register">注册</van-button>
 </div>
 </template>
 
@@ -57,9 +59,9 @@
                 username:'',
                 password:'',
                 rePass:'',
-                phone:''
+                phone:'',
+                code:''
               },
-              showBtn:true,
               btnText:'发送验证码',
               disabled:false,
               time:0
@@ -98,12 +100,27 @@
           },
           //点击注册按钮
           register(){
-            if(this.register.username==''){
-              Toast.fail('用户名不能为空')
+            if(this.registerForm.username==''){
+              Toast.fail('用户名不能为空');
             }else if(this.registerForm.password==''){
               Toast.fail('密码不能为空')
-            }else if(this.registerForm.rePass!==registerForm.password){
+            }else if(this.registerForm.rePass!==this.registerForm.password){
               Toast.fail('两次密码输入不一致')
+            }else if(this.registerForm.code==''){
+              Toast.fail('手机验证码不能为空');
+            }else{
+              var params={...this.registerForm};
+              //console.log(params)
+              axios.post('/api/user/register',{params:params}).then((res)=>{
+                if(res.data.status==3){
+                  Toast.fail('验证码错误');
+                }else if(res.data.status==0){
+                  Toast.fail('该用户名或手机号已注册');
+                }else{
+                  Toast.success('注册成功');
+                  this.$router.push('/personal');
+                }
+              })
             }
           }
         },

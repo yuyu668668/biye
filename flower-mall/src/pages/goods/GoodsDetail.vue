@@ -68,6 +68,7 @@
   import {GoodsAction,
           GoodsActionBigBtn,
            GoodsActionMiniBtn} from 'vant'
+  import { mapState, mapActions } from 'vuex';
     export default {
         data() {
             return {
@@ -87,7 +88,9 @@
           [GoodsActionMiniBtn.name]: GoodsActionMiniBtn
         },
         methods: {
-
+          ...mapActions([
+            'setCart1'
+          ]),
           //根据商品id获取商品数据
           async getDetail(){
             axios.get('api/goods/getDetail',{params:{_id:this.goodsId}}).then((res)=>{
@@ -116,7 +119,7 @@
           },
           //点击购买
           toBuy(){
-            console.log('购买')
+            //console.log('购买')
             this.showBase=true;
             this.isBuy=true;
           },
@@ -139,7 +142,20 @@
           },
           //确定购买
           goBuy(){
-            console.log('确定购买')
+            //this.setCart1()
+            //console.log(this.goodsDetail)
+            var orderArr=[];
+            var params={
+                goodsImg:this.goodsDetail.images,
+                goodsName:this.goodsDetail.name,
+                goods_id: this.goodsDetail._id,
+                goodsNum: this.value,
+                goodsPrice: this.goodsDetail.price
+            }
+            orderArr.push(params)
+            //console.log(orderArr)
+            this.setCart1(orderArr)
+            this.$router.push('order')
           }
         }
     }

@@ -5,12 +5,10 @@
           v-for="(item, index) in cartList"
           :key="item._id"
           :name="item._id"
-          class="check-goods"
           label-disabled
         >
           <van-card
             :title="item.goodsName"
-            :desc="item.desc"
             :num="item.goodsNum"
             :price="item.goodsPrice"
             :thumb="item.goodsImg"
@@ -27,7 +25,7 @@
         :disabled="!checkedGoods.length"
         :button-text="submitBarText"
         class="btn-goods"
-
+        @submit="onSubmit"
       />
     </div>
 </template>
@@ -35,6 +33,7 @@
 <script>
   import { mapState, mapActions } from 'vuex';
   import axios from 'axios'
+
     export default {
         name:'carts',
         data() {
@@ -66,7 +65,8 @@
         methods:{
           ...mapActions([
             'changeFooterFlag1',
-            'changeCarts1'
+            'changeCarts1',
+            'setCart1'
           ]),
 
           //获取购物车数据
@@ -87,6 +87,26 @@
                 this.getCarts();
               }
             })
+          },
+
+          //提交订单
+          onSubmit(){
+            var that=this;
+            var orderArr=[];
+            this.cartList.forEach(function (item) {
+              if(that.checkedGoods.length>0){
+                that.checkedGoods.forEach(function (key) {
+                  if(item._id==key){
+                    orderArr.push(item)
+                  }
+                })
+              }
+
+            })
+            //console.log(orderArr)
+            this.setCart1(orderArr);
+            //console.log(this.checkedGoods)
+            this.$router.push('/order');
           }
         }
 

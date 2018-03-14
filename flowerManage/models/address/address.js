@@ -9,7 +9,11 @@ var AddressSchema=new mongoose.Schema({
     id: Number,     //编号
     name: String,   //收货人姓名
     tel: String ,   //收货人电话
-    address: String //收货人地址
+    address: String, //收货人地址
+    is_default:{    //是否设置为默认地址
+        type:Boolean,
+        default: false
+    }
 
 });
 

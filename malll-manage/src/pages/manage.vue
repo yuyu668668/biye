@@ -21,7 +21,7 @@
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">
-            <i class="el-icon-goods"></i>
+            <i class="el-icon-more-outline"></i>
             <span>分类管理</span>
           </template>
           <el-menu-item-group>
@@ -36,30 +36,28 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="memberList">用户列表</el-menu-item>
+            <el-menu-item index="adminList">管理员列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">
           <template slot="title">
-            <i class="el-icon-goods"></i>
+            <i class="el-icon-tickets"></i>
             <span>订单管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="categoryList">订单列表</el-menu-item>
+            <el-menu-item index="orderList">订单列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="5">
           <template slot="title">
-            <i class="el-icon-goods"></i>
-            <span>运营管理</span>
+            <i class="el-icon-picture-outline"></i>
+            <span>管理广告</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="adsList">广告列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="6">
-          <i class="el-icon-setting"></i>
-          <span slot="title">系统管理</span>
-        </el-menu-item>
+        <el-menu-item index="systemList"><i class="el-icon-setting"></i>系统管理</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>

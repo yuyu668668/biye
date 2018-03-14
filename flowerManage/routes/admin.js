@@ -27,4 +27,13 @@ router.post('/updateAvatar',adminController.updateAvatar);
 //修改密码
 router.post('/changePass',adminController.changePass);
 
+//检查是否是超级及管理员
+router.get('/isSuperAdmin',adminController.isSuperAdmin);
+
+//获取所有管理员
+router.get('/getAllAdmin',adminController.getAllAdmin);
+
+//删除管理员
+router.post('/deleteAdmin',adminController.deleteAdmin);
+
 module.exports = router;

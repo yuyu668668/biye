@@ -13,6 +13,7 @@ const store=new Vuex.Store({
     activeCategory:false,
     activeCarts:false,
     activePersonal:false,
+    carts:'',
   },
   mutations:{
     //控制底部导航菜单是否显示
@@ -42,6 +43,9 @@ const store=new Vuex.Store({
       state.activeCategory=false;
       state.activeCarts=false;
       state.activePersonal=true;
+    },
+    setCart(state,carts){
+      state.carts=carts;
     }
   },
   actions:{
@@ -60,6 +64,9 @@ const store=new Vuex.Store({
     changePersonal1( context ) {
       context.commit('changePersonal');
     },
+    setCart1(context,flag){
+      context.commit('setCart',flag);
+    }
   }
 
 });

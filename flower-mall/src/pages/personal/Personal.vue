@@ -22,10 +22,7 @@
         </van-col>
       </van-row>
       <van-cell-group class="user-group">
-        <van-cell icon="records" title="全部订单" is-link />
-      </van-cell-group>
-      <van-cell-group class="user-group">
-        <van-cell icon="gift" title="我的收藏" is-link />
+        <van-cell icon="records" title="全部订单" is-link @click="toOrder"/>
       </van-cell-group>
       <van-cell-group class="user-group">
         <van-cell icon="location" title="我的地址" is-link @click="toAddress"/>
@@ -131,6 +128,13 @@
           toAddress(){
             if(this.userForm.username){
               this.$router.push('/address')
+            }else{
+              Toast.fail('还未登录')
+            }
+          },
+          toOrder(){
+            if(this.userForm.username){
+              this.$router.push('/orderList')
             }else{
               Toast.fail('还未登录')
             }

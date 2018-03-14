@@ -212,7 +212,70 @@ adminController.changePass=function (req,res) {
         }
     })
 
+}
 
+//检查是否是超级管理员
+adminController.isSuperAdmin=function (req,res) {
+    var id=req.session.admin_id;
+
+    AdminModel.findOne({_id:id},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            if(doc){
+                if(doc.status==1){
+                    res.send({
+                        status: 1,
+                        msg: '是超级管理员'
+                    })
+                }else{
+                    res.send({
+                        status: 0,
+                        msg: '不是超级管理员，没有权限'
+                    })
+                }
+            }
+        }
+    })
+}
+
+//获取所有管理员
+adminController.getAllAdmin=function (req,res) {
+    AdminModel.find({status: 0},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            if(doc){
+                console.log(doc)
+             res.send({
+                 status: 1,
+                 msg: doc
+             })
+            }else{
+                res.send({
+                    status: 0,
+                    msg: '管理员列表为空'
+                })
+            }
+        }
+    })
+}
+
+//删除管理员
+adminController.deleteAdmin=function (req,res) {
+    var _id=req.body._id;
+    if(_id){
+        AdminModel.remove({_id:_id},function (err) {
+            if(err){
+                throw err;
+            }else{
+                res.send({
+                    status: 1,
+                    msg: '删除成功'
+                })
+            }
+        })
+    }
 }
 
 module.exports=adminController;

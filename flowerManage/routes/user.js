@@ -18,4 +18,9 @@ router.get('/checkLogin',userController.checkLogin);
 //获取手机验证码
 router.post('/getPhoneCode',userController.getPhoneCode);
 
+//获取所有用户
+router.get('/getUser',userController.getUser);
+
+router.post('/deleteUser',userController.deleteUser);
+
 module.exports = router;

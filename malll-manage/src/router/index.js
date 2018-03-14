@@ -10,6 +10,9 @@ import categoryList from '@/pages/categoryList'
 import addCategory from '@/pages/addCategory'
 import recycleList from '@/pages/recycleList'
 import adsList from '@/pages/adsList'
+import orderList from '@/pages/orderList'
+import systemList from '@/pages/systemList'
+import adminList from '@/pages/adminList'
 
 Vue.use(Router)
 
@@ -54,6 +57,18 @@ export default new Router({
         {
           path: '/adsList',
           component: adsList
+        },
+        {
+          path: '/orderList',
+          component: orderList
+        },
+        {
+          path: '/systemList',
+          component: systemList
+        },
+        {
+          path: '/adminList',
+          component: adminList
         }
       ]
     }

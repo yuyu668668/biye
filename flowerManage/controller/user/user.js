@@ -69,11 +69,7 @@ userController.login=function (req,res) {
 
 }
 
-//用户注册
-userController.register=function (req,res) {
-    console.log('注册')
-    //console.log(req.cookies.userId)
-}
+
 //获取手机验证码
 const SMSClient = require('@alicloud/sms-sdk');
 // ACCESS_KEY_ID/ACCESS_KEY_SECRET 根据实际申请的账号信息进行替换
@@ -82,15 +78,17 @@ const secretAccessKey = 'LurgYTCDFYFSkfyPhY1Bl0ZhDqfDsI';
 //初始化sms_client
 let smsClient = new SMSClient({accessKeyId, secretAccessKey});
 
+var codes=Math.floor(Math.random()*(9999-1000))+1000;//生成随机的四位验证码
+
 userController.getPhoneCode=function (req,res) {
     var phone=req.body.phone;
-    var codes=Math.floor(Math.random()*(9999-1000))+1000;//生成随机的四位验证码
+
     //发送短信
     smsClient.sendSMS({
         PhoneNumbers: phone,
         SignName: '鲜花网',
         TemplateCode: 'SMS_126885102',
-        TemplateParam: '{"code":"6682"}'
+        TemplateParam: '{"code":"2432"}'
     }).then(function (response) {
         let {Code}=response
         if (Code === 'OK') {
@@ -100,6 +98,50 @@ userController.getPhoneCode=function (req,res) {
     }, function (err) {
         console.log(err)
     })
+
+}
+
+//用户注册
+userController.register=function (req,res) {
+
+    var code=req.body.params.code;//手机验证码
+    var username=req.body.params.username;
+    var psw=req.body.params.password;
+    var password=encryption(psw);
+    var phone=req.body.params.phone;
+    //console.log(username)
+    if(code!=='2432'){
+        res.send({
+            status: 3,
+            msg:'验证码错误'
+        })
+        return;
+    }
+    UserModel.findOne({$or:[{username:username},{phone:phone}]},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            if(doc){
+                res.send({
+                    status: 0,
+                    msg:'该用户名或手机号已注册'
+                })
+            }else{
+                var userModel=new UserModel({username:username,password:password,phone:phone});
+                userModel.save(function (errs) {
+                    if(errs){
+                        throw errs;
+                    }else{
+                        res.send({
+                            status: 1,
+                            msg: '注册成功'
+                        })
+                    }
+                })
+            }
+        }
+    })
+
 
 }
 
@@ -155,6 +197,92 @@ userController.checkLogin=function (req,res) {
             msg: '当前未登录'
         })
     }
+}
+
+//获取所有用户
+userController.getUser=function (req,res) {
+    UserModel.find({},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            if(doc){
+                res.send({
+                    status: 1,
+                    msg: doc
+                })
+            }else{
+                res.send({
+                    status: 0,
+                    msg: '用户列表为空'
+                })
+            }
+        }
+    })
+}
+
+//删除用户
+var AddressModel=require('../../models/address/address');
+var CartModel=require('../../models/cart/cart');
+var OrderModel=require('../../models/order/order');
+userController.deleteUser=function (req,res) {
+    var _id=req.body._id;
+    //删除该用户下的地址信息
+    AddressModel.find({user_id:_id},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            if(doc){
+                AddressModel.remove({user_id:_id},function (errs) {
+                    if(errs){
+                        throw errs;
+                    }
+                })
+            }
+        }
+    })
+
+    //删除该用户下的购物车信息
+    CartModel.find({user_id:_id},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            if(doc){
+                CartModel.remove({user_id:_id},function (errs) {
+                    if(errs){
+                        throw errs;
+                    }
+                })
+            }
+        }
+    })
+
+    //删除该用户下的订单信息
+    OrderModel.find({user_id:_id},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            if(doc){
+                OrderModel.remove({user_id:_id},function (errs) {
+                    if(errs){
+                        throw errs;
+                    }
+                })
+            }
+        }
+    })
+
+    //删除该用户
+    UserModel.remove({_id:_id},function (err) {
+        if(err){
+            throw err;
+        }else{
+            res.send({
+                status: 1,
+                msg:'删除用户成功'
+            })
+        }
+    })
+
 }
 
 module.exports=userController;

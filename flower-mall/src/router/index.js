@@ -7,6 +7,8 @@ import personal from '@/pages/personal/Personal'
 import goodsDetail from '@/pages/goods/GoodsDetail'
 import register from '@/pages/personal/Register'
 import address from '@/pages/personal/Address'
+import order from '@/pages/personal/Order'
+import orderList from '@/pages/personal/orderList'
 
 Vue.use(Router)
 
@@ -40,6 +42,14 @@ export default new Router({
           path:'/address',
           component:address
         },
+        {
+          path:'/order',
+          component:order
+        },
+    {
+      path:'/orderList',
+      component:orderList
+    },
 
 
     ]
