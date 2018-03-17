@@ -11,10 +11,7 @@ var UserSchema=new mongoose.Schema({
         type: String,
         default:''
     },
-    create_time: {     //创建时间
-        type:Date,
-        default:Date.now()
-    },
+    create_time: String, //创建时间
     avatar: {  //头像
         type: String,
         default: './public/images/avatar/default.jpg'

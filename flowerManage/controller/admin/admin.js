@@ -5,6 +5,7 @@ var AdminModel=require('../../models/admin/admin');
 var crypto=require('crypto');
 var formidable=require('formidable');
 var fs=require('fs');
+var dtime=require('time-formater');
 
 var adminController={};
 
@@ -76,7 +77,7 @@ adminController.register=function (req,res) {
             var newPassword=encryption(password);
             //console.log(newPassword)
 
-            var registerModel=new AdminModel({username:username,password:newPassword});
+            var registerModel=new AdminModel({username:username,password:newPassword,create_time:dtime().format('YYYY-MM-DD')});
             registerModel.save(function (err) {
                 if(err){
                     res.send({
@@ -246,7 +247,6 @@ adminController.getAllAdmin=function (req,res) {
             throw err;
         }else{
             if(doc){
-                console.log(doc)
              res.send({
                  status: 1,
                  msg: doc
@@ -276,6 +276,38 @@ adminController.deleteAdmin=function (req,res) {
             }
         })
     }
+}
+
+//获取一天的管理员注册量
+adminController.adminDayCount=function (req,res) {
+    var today=req.body.today;
+    if(today){
+        AdminModel.count({create_time:today},function (err,doc) {
+            if(err){
+                throw err;
+            }else{
+                res.send({
+                    status: 1,
+                    msg: doc
+                })
+            }
+        })
+    }
+
+}
+
+//获取管理员总数
+adminController.adminAllCount=function (req,res) {
+    AdminModel.count({},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            res.send({
+                status: 1,
+                msg: doc
+            })
+        }
+    })
 }
 
 module.exports=adminController;

@@ -9,16 +9,22 @@
 
       <van-row class="user-links">
         <van-col span="8">
-          <van-icon name="pending-payment" />
-          待付款
+          <router-link  :to="{path:'/orderList',query: {active: 1}}">
+            <van-icon name="pending-payment" />
+            待付款
+          </router-link>
         </van-col>
         <van-col span="8">
-          <van-icon name="pending-orders" />
-          待接单
+          <router-link  :to="{path:'/orderList',query: {active: 2}}">
+            <van-icon name="pending-orders" />
+            待接单
+          </router-link>
         </van-col>
         <van-col span="8">
-          <van-icon name="pending-deliver" />
-          待发货
+          <router-link  :to="{path:'/orderList',query: {active: 3}}">
+            <van-icon name="pending-deliver" />
+            待发货
+          </router-link>
         </van-col>
       </van-row>
       <van-cell-group class="user-group">

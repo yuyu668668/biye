@@ -36,4 +36,10 @@ router.get('/getAllAdmin',adminController.getAllAdmin);
 //删除管理员
 router.post('/deleteAdmin',adminController.deleteAdmin);
 
+//获取一天管理员的注册量
+router.post('/adminDayCount',adminController.adminDayCount);
+
+//获取管理员总数
+router.get('/adminAllCount',adminController.adminAllCount);
+
 module.exports = router;

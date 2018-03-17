@@ -137,6 +137,9 @@
               if(res.data.status==1){
                 this.$router.go(-1);
                 Toast.success('加入购物车成功')
+              }else{
+                Toast.fail('您还未登录');
+                this.$router.push('personal')
               }
             })
           },
@@ -144,18 +147,26 @@
           goBuy(){
             //this.setCart1()
             //console.log(this.goodsDetail)
-            var orderArr=[];
-            var params={
-                goodsImg:this.goodsDetail.images,
-                goodsName:this.goodsDetail.name,
-                goods_id: this.goodsDetail._id,
-                goodsNum: this.value,
-                goodsPrice: this.goodsDetail.price
-            }
-            orderArr.push(params)
-            //console.log(orderArr)
-            this.setCart1(orderArr)
-            this.$router.push('order')
+            //检查是否已登录
+            axios.get('/api/user/checkLogin').then((res)=>{
+              if(res.data.status==1){
+                var orderArr=[];
+                var params={
+                  goodsImg:this.goodsDetail.images,
+                  goodsName:this.goodsDetail.name,
+                  goods_id: this.goodsDetail._id,
+                  goodsNum: this.value,
+                  goodsPrice: this.goodsDetail.price
+                }
+                orderArr.push(params)
+                //console.log(orderArr)
+                this.setCart1(orderArr)
+                this.$router.push('order')
+              }else{
+                Toast.fail('您还未登录');
+                this.$router.push('personal')
+              }
+            })
           }
         }
     }

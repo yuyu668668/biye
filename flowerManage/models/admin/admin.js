@@ -6,10 +6,7 @@ var mongoose=require('mongoose');
 var AdminSchema=new mongoose.Schema({
     username: String,   //用户名
     password:   String, //密码
-    create_time: {     //创建时间
-        type:Date,
-        default:Date.now()
-    },
+    create_time:String,
     status: {
         type:Number,
         default:0  //0表示普通管理员 1表示超级管理员

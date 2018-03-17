@@ -9,6 +9,7 @@ import register from '@/pages/personal/Register'
 import address from '@/pages/personal/Address'
 import order from '@/pages/personal/Order'
 import orderList from '@/pages/personal/orderList'
+import payOver from '@/pages/personal/payOver'
 
 Vue.use(Router)
 
@@ -46,10 +47,14 @@ export default new Router({
           path:'/order',
           component:order
         },
-    {
-      path:'/orderList',
-      component:orderList
-    },
+        {
+          path:'/orderList',
+          component:orderList
+        },
+        {
+          path:'/payOver',
+          component:payOver
+        },
 
 
     ]

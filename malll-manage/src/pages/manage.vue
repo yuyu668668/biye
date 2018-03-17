@@ -51,7 +51,7 @@
         <el-submenu index="5">
           <template slot="title">
             <i class="el-icon-picture-outline"></i>
-            <span>管理广告</span>
+            <span>广告管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="adsList">广告列表</el-menu-item>

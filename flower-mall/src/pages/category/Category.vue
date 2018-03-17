@@ -12,38 +12,50 @@
     <van-tabs>
       <!--遍历所有商品-->
       <van-tab :title="'全部'">
-        <van-row v-for="(g,index) in groups" :key="index" style="margin-top: 5px;">
-          <van-col :span="12" v-for="item in g" :key="index" style="border:1px solid lightgray ">
-            <router-link :to="'/goodsDetail?goodsId='+item._id">
-              <van-row>
-                <van-col :span="24"><img v-lazy="item.images" style="width: 200px;height:200px;"/></van-col>
-              </van-row>
-              <van-row><van-col :span="24">{{item.name}}</van-col></van-row>
-              <van-row>
-                <van-col :span="12"><span style="color: red">￥{{item.price}}</span></van-col>
-                <van-col :span="12"><span style="color: grey">销量: {{item.sell}}</span></van-col>
-              </van-row>
-            </router-link>
-          </van-col>
-        </van-row>
+        <div class="goods-list-wrapper">
+          <ul class="goods-list">
+            <li  v-for="(item,index) in allGoods" :key="index">
+              <router-link :to="'/goodsDetail?goodsId='+item._id">
+                <div class="photo">
+                  <img v-lazy="item.images">
+                </div>
+                <div class="info">
+                  <h3 class="title">
+                    {{item.name}}
+                  </h3>
+                  <div class="bot">
+                    <span class="price">￥{{item.price}}</span>
+                    <div class="sell">销量:{{item.sell}}</div>
+                  </div>
+                </div>
+              </router-link>
+            </li>
+          </ul>
+        </div>
       </van-tab>
       <!--遍历分类下所属的商品-->
       <van-tab v-for="cate in category" :title="cate.cname" :key="cate._id">
-        <van-row v-for="(g,index) in groups" :key="index">
-          <van-col :span="12" v-for="item in g" :key="index" style="border:1px solid lightgray "
-          v-if="cate._id==item.link_category._id">
-            <router-link :to="'/goodsDetail?goodsId='+item._id">
-              <van-row>
-                <van-col :span="24"><img v-lazy="item.images" style="width: 200px;height:200px;"/></van-col>
-              </van-row>
-              <van-row><van-col :span="24">{{item.name}}</van-col></van-row>
-              <van-row>
-                <van-col :span="12"><span style="color: red">￥{{item.price}}</span></van-col>
-                <van-col :span="12"><span style="color: grey">销量: {{item.sell}}</span></van-col>
-              </van-row>
-            </router-link>
-          </van-col>
-        </van-row>
+        <div class="goods-list-wrapper">
+          <ul class="goods-list">
+            <li  v-for="(item,index) in allGoods" :key="index" v-if="cate._id==item.link_category._id">
+              <router-link :to="'/goodsDetail?goodsId='+item._id">
+                <div class="photo">
+                  <img v-lazy="item.images">
+                </div>
+                <div class="info">
+                  <h3 class="title">
+                    {{item.name}}
+                  </h3>
+                  <div class="bot">
+                    <span class="price">￥{{item.price}}</span>
+                    <div class="sell">销量:{{item.sell}}</div>
+                  </div>
+                </div>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+
       </van-tab>
     </van-tabs>
   </div>
@@ -77,9 +89,7 @@
         this.getCategory();
       },
       computed: {
-        groups(){
-          return this.changeArr(this.allGoods,2);
-        }
+
       },
       methods:{
         ...mapActions([
@@ -112,29 +122,70 @@
           })
         },
 
-        //将一维数组变成二维数组
-        changeArr(items,count){
-          var len=items.length;
-          var arr=[];
-          var child=[];
-          for(var  i=0;i<len;i++){
-            child.push(items[i]);
-
-            if(child.length===count){
-              arr.push(child);
-              child=[];
-            }
-          }
-          if(child.length>0){
-            arr.push(child);
-          }
-          return arr;
-        }
       }
 
     }
 </script>
 
 <style scoped>
+  .goods-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 2%;
+  }
 
+  ul li{
+    width: 49%;
+    background: #fff;
+    margin: 0.1rem 0;
+  }
+
+  .photo img{
+    width: 100%;
+    height: 100%;
+  }
+
+  .info {
+    padding: 0.08rem 0.15rem 0.15rem 0.15rem;
+  }
+  .info .title{
+    font-size: 0.28rem;
+    color: #333;
+    line-height: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .info .bot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.1rem 0 0.2rem 0;
+  }
+  .price{
+    font-size: 0.32rem;
+    color: #f44;
+  }
+
+
+  .sell{
+    width: 3rem;
+    height: 0.48rem;
+    color: #f44;
+    background-color: #fff;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 0.24rem;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
+  }
 </style>

@@ -54,6 +54,11 @@ cartController.addToCart=function (req,res) {
                 })
             }
         })
+    }else{
+        res.send({
+            status: 0,
+            msg: '还未登录'
+        })
     }
 
 }

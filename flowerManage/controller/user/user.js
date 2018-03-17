@@ -6,6 +6,7 @@ var crypto=require('crypto');
 var formidable=require('formidable');
 var fs=require('fs');
 var qs=require('qs')
+var dtime=require('time-formater');
 
 var userController={};
 
@@ -127,7 +128,7 @@ userController.register=function (req,res) {
                     msg:'该用户名或手机号已注册'
                 })
             }else{
-                var userModel=new UserModel({username:username,password:password,phone:phone});
+                var userModel=new UserModel({username:username,password:password,phone:phone,create_time:dtime().format('YYYY-MM-DD')});
                 userModel.save(function (errs) {
                     if(errs){
                         throw errs;
@@ -283,6 +284,37 @@ userController.deleteUser=function (req,res) {
         }
     })
 
+}
+
+//获取当天用户注册数
+userController.userDayCount=function (req,res) {
+    var today=req.body.today;
+    if(today){
+        UserModel.count({create_time:today},function (err,doc) {
+            if(err){
+                throw err;
+            }else{
+                res.send({
+                    status: 1,
+                    msg: doc
+                })
+            }
+        })
+    }
+}
+
+//获取用户总数
+userController.userCount=function (req,res) {
+    UserModel.count({},function (err,doc) {
+        if(err){
+            throw err;
+        }else{
+            res.send({
+                status: 1,
+                msg: doc
+            })
+        }
+    })
 }
 
 module.exports=userController;

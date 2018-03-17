@@ -26,7 +26,7 @@
               <span>{{ props.row.price }}</span>
             </el-form-item>
             <el-form-item label="商品分类：">
-              <span>{{ props.row.category.cname }}</span>
+              <span>{{ props.row.category }}</span>
             </el-form-item>
             <el-form-item label="花语：">
               <span>{{ props.row.detail }}</span>
@@ -111,14 +111,7 @@
           <el-input v-model="selectTable.price"></el-input>
         </el-form-item>
         <el-form-item label="商品分类" label-width="100px" prop="category">
-          <el-select v-model="selectTable.category" placeholder="请选择">
-            <el-option
-            v-for="item in categoryList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-            </el-option>
-          </el-select>
+          <el-input v-model="selectTable.category" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="商品图片" label-width="100px">
           <el-upload
@@ -168,7 +161,6 @@
               ],
               price: [
                 { required: true, message: '请输入商品价格' },
-                { type: 'number', message: '价格必须为数字值'}
               ],
               desc: [
                 { required: true, message: '请输入商品描述', trigger: 'blur' }
@@ -204,7 +196,7 @@
                       tableData.price=item.price;//商品价格
                       tableData.create_time=item.create_time;//创建时间
                       tableData.images=item.images;//商品图片
-                      tableData.category=item.link_category;//商品分类名
+                      tableData.category=item.link_category.cname;//商品分类名
                       this.tableData.push(tableData);
                   })
                 }else{

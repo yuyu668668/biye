@@ -8,10 +8,7 @@ var OrderSchema=new mongoose.Schema({
     id: Number, //编号
     goodsInfo: [],//商品信息
     user_id: String,//用户id
-    create_time:{   //创建时间
-        type: Date,
-        default: Date.now()
-    }
+    create_time:String //创建时间
 });
 
 var Order=mongoose.model('Order',OrderSchema);

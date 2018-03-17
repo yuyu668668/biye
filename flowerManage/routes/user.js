@@ -21,6 +21,13 @@ router.post('/getPhoneCode',userController.getPhoneCode);
 //获取所有用户
 router.get('/getUser',userController.getUser);
 
+//删除用户
 router.post('/deleteUser',userController.deleteUser);
+
+//获取当天用户注册数量
+router.post('/userDayCount',userController.userDayCount);
+
+//获取用户总数
+router.get('/userCount',userController.userCount);
 
 module.exports = router;

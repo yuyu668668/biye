@@ -106,7 +106,6 @@ goodsController.updateGoods=function (req,res) {
        desc: req.body.desc,
        detail:req.body.detail,
        amount:req.body.amount,
-       category:req.body.category,
        images: req.body.images
    }
 
@@ -120,7 +119,6 @@ goodsController.updateGoods=function (req,res) {
         detail:params.detail,
         amount:params.amount,
         images: params.images,
-        link_category: params.category,
     }
 
     GoodsModel.update({_id:params._id},{$set:newData},function (err,result) {
