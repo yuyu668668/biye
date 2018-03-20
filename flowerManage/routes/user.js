@@ -30,4 +30,10 @@ router.post('/userDayCount',userController.userDayCount);
 //获取用户总数
 router.get('/userCount',userController.userCount);
 
+//获取当前登录用户的信息
+router.post('/getCurrentUser',userController.getCurrentUser);
+
+//修改用户信息
+router.post('/updateUser',userController.updateUser);
+
 module.exports = router;

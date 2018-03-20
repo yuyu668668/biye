@@ -255,7 +255,7 @@ goodsController.getDetail=function (req,res) {
 
 //查询热销商品
 goodsController.hotGoods=function (req,res) {
-    GoodsModel.find({}).sort({'sell':-1}).limit(8).exec(function (err,doc) {
+    GoodsModel.find({}).sort({'sell':-1}).limit(10).exec(function (err,doc) {
         if(err){
             throw err;
         }else{

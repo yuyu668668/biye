@@ -29,7 +29,7 @@
   </van-row>
   <van-goods-action>
     <van-goods-action-mini-btn icon="home" text="首页" @click="gotoHome" />
-    <van-goods-action-mini-btn icon="cart" text="购物车" @click="gotoCar" />
+    <van-goods-action-mini-btn icon="like-o" text="收藏" @click="addCollect" />
     <van-goods-action-big-btn text="加入购物车" @click="addToCar" />
     <van-goods-action-big-btn text="立即购买" @click="toBuy" primary />
   </van-goods-action>
@@ -93,11 +93,10 @@
           ]),
           //根据商品id获取商品数据
           async getDetail(){
-            axios.get('api/goods/getDetail',{params:{_id:this.goodsId}}).then((res)=>{
+            axios.get('/api/goods/getDetail',{params:{_id:this.goodsId}}).then((res)=>{
                 if(res.data.status==1){
                   this.goodsDetail=res.data.msg;
                   //console.log(this.goodsDetail)
-
                 }else{
 
                 }
@@ -165,6 +164,17 @@
               }else{
                 Toast.fail('您还未登录');
                 this.$router.push('personal')
+              }
+            })
+          },
+          //加入收藏
+          addCollect(){
+            axios.post('/api/collect/addCollect',{goods_id:this.goodsId}).then((res)=>{
+              if(res.data.status==1){
+                Toast.success('加入收藏成功');
+              }else{
+                Toast.fail('您还未登录');
+                this.$router.push('personal');
               }
             })
           }

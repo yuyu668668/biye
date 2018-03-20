@@ -14,4 +14,10 @@ router.post('/addToCart',cartController.addToCart);
 //根据id删除一条购物车数据
 router.get('/delGoodsById',cartController.delGoodsById);
 
+//获取所有购物车数据
+router.get('/getAllCart',cartController.getAllCart);
+
+//根据购物车_id删除
+router.post('/deleteCart',cartController.deleteCart);
+
 module.exports = router;

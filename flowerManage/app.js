@@ -16,6 +16,7 @@ var ads=require('./routes/ads');
 var address=require('./routes/address');
 var cart=require('./routes/cart');
 var order=require('./routes/order');
+var collect=require('./routes/collect');
 
 var app = express();
 
@@ -46,6 +47,7 @@ app.use('/ads',ads);
 app.use('/address',address);
 app.use('/cart',cart);
 app.use('/order',order);
+app.use('/collect',collect);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

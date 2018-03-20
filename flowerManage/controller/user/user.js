@@ -317,4 +317,47 @@ userController.userCount=function (req,res) {
     })
 }
 
+//获取当前登录用户的资料
+userController.getCurrentUser=function (req,res) {
+    var user_id=req.cookies.userId;
+
+    if(user_id){
+        UserModel.findOne({_id:user_id},function (err,doc) {
+            if(err){
+                throw err;
+            }else{
+                res.send({
+                    status: 1,
+                    msg: doc
+                })
+            }
+        })
+    }else{
+        res.send({
+            status: 0,
+            msg: '获取当前用户失败'
+        })
+    }
+}
+
+//修改用户资料
+userController.updateUser=function (req,res) {
+    var user_id=req.cookies.userId;
+
+    var phone=req.body.phone;
+    var psd=req.body.psd;
+    var password=encryption(psd);
+
+    UserModel.update({_id:user_id},{$set:{phone:phone,password:password}},function (err) {
+        if(err){
+            throw err;
+        }else{
+            res.send({
+                status: 1,
+                msg: '修改成功'
+            })
+        }
+    })
+}
+
 module.exports=userController;

@@ -7,9 +7,11 @@ import personal from '@/pages/personal/Personal'
 import goodsDetail from '@/pages/goods/GoodsDetail'
 import register from '@/pages/personal/Register'
 import address from '@/pages/personal/Address'
-import order from '@/pages/personal/Order'
-import orderList from '@/pages/personal/orderList'
+import order from '@/pages/order/Order'
+import orderList from '@/pages/order/orderList'
 import payOver from '@/pages/personal/payOver'
+import collectGoods from '@/pages/goods/collectGoods'
+import profile from '@/pages/personal/profile'
 
 Vue.use(Router)
 
@@ -55,7 +57,14 @@ export default new Router({
           path:'/payOver',
           component:payOver
         },
-
+        {
+          path:'/collectGoods',
+          component: collectGoods
+        },
+        {
+          path:'/profile',
+          component: profile
+        }
 
     ]
 })

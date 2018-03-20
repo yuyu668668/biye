@@ -88,4 +88,47 @@ cartController.delGoodsById=function (req,res) {
     }
 }
 
+//获取所有购物车数据
+cartController.getAllCart=function (req,res) {
+    CartModel.find({},function (err,doc) {
+        if(err){
+            throw errr;
+        }else{
+            if(doc){
+                res.send({
+                    status: 1,
+                    msg: doc
+                })
+            }else{
+                res.send({
+                    status: 0,
+                    msg: '购物车数据为空'
+                })
+            }
+        }
+    })
+}
+
+//根据购物车_id删除
+cartController.deleteCart=function (req,res) {
+    var _id=req.body._id;
+    if(_id){
+        CartModel.remove({_id:_id},function (err) {
+            if(err){
+                throw err;
+            }else{
+                res.send({
+                    status: 1,
+                    msg: '删除成功'
+                })
+            }
+        })
+    }else{
+        res.send({
+            status: 0,
+            msg:'删除失败'
+        })
+    }
+}
+
 module.exports=cartController;

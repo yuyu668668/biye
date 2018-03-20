@@ -11,19 +11,19 @@
         <van-col span="8">
           <router-link  :to="{path:'/orderList',query: {active: 1}}">
             <van-icon name="pending-payment" />
-            待付款
+            已付款
           </router-link>
         </van-col>
         <van-col span="8">
           <router-link  :to="{path:'/orderList',query: {active: 2}}">
             <van-icon name="pending-orders" />
-            待接单
+            待付款
           </router-link>
         </van-col>
         <van-col span="8">
           <router-link  :to="{path:'/orderList',query: {active: 3}}">
             <van-icon name="pending-deliver" />
-            待发货
+            已发货
           </router-link>
         </van-col>
       </van-row>
@@ -32,6 +32,12 @@
       </van-cell-group>
       <van-cell-group class="user-group">
         <van-cell icon="location" title="我的地址" is-link @click="toAddress"/>
+      </van-cell-group>
+      <van-cell-group class="user-group">
+        <van-cell icon="like-o" title="我的收藏" is-link @click="toCollect"/>
+      </van-cell-group>
+      <van-cell-group class="user-group">
+        <van-cell icon="contact" title="个人资料" is-link @click="toProfile"/>
       </van-cell-group>
       <van-cell-group class="user-group">
         <van-cell icon="stop" title="退出登录" is-link @click="loginOut"/>
@@ -135,14 +141,28 @@
             if(this.userForm.username){
               this.$router.push('/address')
             }else{
-              Toast.fail('还未登录')
+              Toast.fail('您还未登录')
             }
           },
           toOrder(){
             if(this.userForm.username){
               this.$router.push('/orderList')
             }else{
-              Toast.fail('还未登录')
+              Toast.fail('您还未登录')
+            }
+          },
+          toCollect(){
+            if(this.userForm.username){
+              this.$router.push('/collectGoods')
+            }else{
+              Toast.fail('您还未登录')
+            }
+          },
+          toProfile(){
+            if(this.userForm.username){
+              this.$router.push('/profile')
+            }else{
+              Toast.fail('您还未登录')
             }
           }
         }

@@ -13,6 +13,8 @@ import adsList from '@/pages/adsList'
 import orderList from '@/pages/orderList'
 import systemList from '@/pages/systemList'
 import adminList from '@/pages/adminList'
+import collectList from '@/pages/collectList'
+import cartList from '@/pages/cartList'
 
 Vue.use(Router)
 
@@ -69,6 +71,14 @@ export default new Router({
         {
           path: '/adminList',
           component: adminList
+        },
+        {
+          path: '/collectList',
+          component: collectList
+        },
+        {
+          path: '/cartList',
+          component: cartList
         }
       ]
     }
